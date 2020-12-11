@@ -2,8 +2,9 @@
   "name": "zohaib-vaival/php-cartzy",
   "description": "PHP SDK for Cartzy API",
   "keywords": ["PHP","Cartzy","SDK"],
-  "homepage": "",
+  "homepage": "https://github.com/zohaib-vaival/php-cartzy",
   "type": "library",
+  "version": "1.0.0",
   "require": {
     "php": ">=7.4",
     "ext-curl": "*",
