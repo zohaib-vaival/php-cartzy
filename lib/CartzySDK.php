@@ -313,7 +313,7 @@ class CartzySDK
      *
      * @param array $config
      *
-     * @return ShopifySDK
+     * @return CartzySDK
      */
     public static function config($config)
     {
@@ -338,7 +338,7 @@ class CartzySDK
             static::$timeAllowedForEachApiCall = $config['AllowedTimePerCall'];
         }
 
-        return new ShopifySDK;
+        return new CartzySDK;
     }
 
     /**
@@ -354,12 +354,22 @@ class CartzySDK
         $shopUrl = preg_replace('#^https?://|/$#', '', $shopUrl);
         $apiVersion = self::$config['ApiVersion'];
 
-        if(isset(self::$config['ApiKey']) && isset(self::$config['Password'])) {
-            $apiKey = self::$config['ApiKey'];
-            $apiPassword = self::$config['Password'];
-            $adminUrl = "https://$apiKey:$apiPassword@$shopUrl/admin/";
-        } else {
-            $adminUrl = "https://$shopUrl/admin/";
+        if(isset(self::$config['AdminUrl'])) {
+            $adminUrl = self::$config['AdminUrl'];
+        }
+        else {
+            if(isset(self::$config['ApiKey']) && isset(self::$config['Password'])) {
+                $apiKey = self::$config['ApiKey'];
+                $apiPassword = self::$config['Password'];
+                $adminUrl = "https://$apiKey:$apiPassword@$shopUrl/admin/";
+            } else {
+                if ($_SERVER['HTTP_HOST'] == 'localhost') {
+                    $adminUrl = "http://localhost/cartzy/admin/";
+                } else {
+                    //$adminUrl = "https://$shopUrl/admin/";
+                    $adminUrl = "https://admin.$shopUrl/";
+                }
+            }
         }
 
         self::$config['AdminUrl'] = $adminUrl;
