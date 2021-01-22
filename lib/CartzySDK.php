@@ -213,9 +213,9 @@ class CartzySDK
     public static $timeAllowedForEachApiCall = .5;
 
     /**
-     * @var string Default Shopify API version
+     * @var string Default Cartzy API version
      */
-    public static $defaultApiVersion = '2020-01';
+    public static $defaultApiVersion = 'v1';
 
     /**
      * Shop / API configurations
@@ -356,24 +356,36 @@ class CartzySDK
 
         if(isset(self::$config['AdminUrl'])) {
             $adminUrl = self::$config['AdminUrl'];
+            $apiUrl = self::$config['ApiUrl'] ?? '';
         }
         else {
             if(isset(self::$config['ApiKey']) && isset(self::$config['Password'])) {
                 $apiKey = self::$config['ApiKey'];
                 $apiPassword = self::$config['Password'];
                 $adminUrl = "https://$apiKey:$apiPassword@$shopUrl/admin/";
+                $apiUrl = "https://$apiKey:$apiPassword@$shopUrl/api/";
             } else {
                 if ($_SERVER['HTTP_HOST'] == 'localhost') {
                     $adminUrl = "http://localhost/cartzy/admin/";
+                    $apiUrl = "http://localhost/cartzy/api/";
                 } else {
-                    //$adminUrl = "https://$shopUrl/admin/";
-                    $adminUrl = "https://admin.$shopUrl/";
+                    if($shopUrl == 'cartzy-dev-store.blackbirdsuite.com') {
+                        $adminUrl = "https://admin.$shopUrl/";
+                        $apiUrl = "https://cartzy-dev-api.blackbirdsuite.com/";
+                    } else if($shopUrl == 'cartupstore.com') {
+                        $adminUrl = "https://admin.$shopUrl/";
+                        $apiUrl = "https://api.cartupstore.com/";
+                    } else {
+                        $adminUrl = "https://$shopUrl/admin/";
+                        //$adminUrl = "https://admin.$shopUrl/";
+                        $apiUrl = "https://$shopUrl/api/";
+                    }
                 }
             }
         }
 
         self::$config['AdminUrl'] = $adminUrl;
-        self::$config['ApiUrl'] = $adminUrl . "api/$apiVersion/";
+        self::$config['ApiUrl'] = $apiUrl.$apiVersion."/third_party/";
 
         return $adminUrl;
     }

@@ -136,8 +136,8 @@ class HttpRequestJson
      */
     protected static function processResponse($response)
     {
-
-        return json_decode($response, true);
+        //return json_decode($response, true);
+        return json_decode($response);
     }
 
 }
