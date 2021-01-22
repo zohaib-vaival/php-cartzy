@@ -105,6 +105,19 @@ You can provide the configuration as a parameter while instantiating the object 
 $Cartzy = new PHPCartzy\CartzySDK($config);
 ```
 
+#### Discount Code
+You can get list of discount codes created in store admin.
+```php
+$config = array(
+    'ClientID' => '***CLIENT-ID-FOR-THIRD-PARTY-APP***',
+    'ShopUrl' => 'yourshop.cartzy.com',
+    'AccessToken' => '***ACCESS-TOKEN-FOR-THIRD-PARTY-APP***',
+);
+
+PHPCartzy\CartzySDK::config($config);
+$discountCode = new PHPCartzy\Discount\DiscountCode();
+$resp = $discountCode->get();
+```
 
 ## Reference
 - [Cartzy API Reference](https://help.cartzy.com/api/reference/)
