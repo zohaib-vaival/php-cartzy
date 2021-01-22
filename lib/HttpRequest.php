@@ -17,8 +17,8 @@ class HttpRequest
         $accessToken = $config['AccessToken'];
 
         $this->headers = array(
-            'Authorization' => $accessToken,
-            'ClientID' => $clientID
+            'access-token' => $accessToken,
+            'client-id' => $clientID
         );
 
         $this->apiEndpoint = $config['ApiUrl'];
